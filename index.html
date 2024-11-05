@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATM Booth</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div id="atm-container">
+        <h1>ATM Booth</h1>
+
+        <!-- Login Screen -->
+        <div id="login-screen">
+            <h2>Login</h2>
+            <form id="login-form">
+                <div class="input-container">
+                    <input type="text" id="username" placeholder="Enter your name" required>
+                </div>
+                <div class="input-container">
+                    <input type="password" id="pin" placeholder="Enter your PIN" required>
+                    <span id="toggle-password" class="eye-icon">&#128065;</span> <!-- Eye icon -->
+                </div>
+                <button type="submit">Login</button>
+            </form>
+            <button id="create-account-btn">Create Account</button>
+        </div>
+
+        <!-- Account Screen -->
+        <div id="account-screen" style="display: none;">
+            <h2>Welcome, <span id="user-name"></span>!</h2>
+            <div id="atm-options">
+                <button onclick="checkBalance()">Check Balance</button>
+                <button onclick="depositMoney()">Deposit Money</button>
+                <button onclick="withdrawMoney()">Withdraw Money</button>
+                <button onclick="transactionHistory()">Transaction History</button>
+                <button onclick="logout()">Logout</button>
+            </div>
+            <div id="transaction-history" style="display: none;">
+                <h3>Transaction History</h3>
+                <ul id="history-list"></ul>
+            </div>
+        </div>
+
+        <!-- Create Account Screen -->
+        <div id="create-account-screen" style="display: none;">
+            <h2>Create Account</h2>
+            <form id="create-account-form">
+                <input type="text" id="new-username" placeholder="Enter your name" required>
+                <input type="password" id="new-pin" placeholder="Create a 4-digit PIN" required>
+                <button type="submit">Create Account</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
