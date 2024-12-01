@@ -4,9 +4,9 @@ import hashlib
 # Base Account class with abstract methods
 class Account(ABC):
     def __init__(self, name):
-        self._name = name  # Encapsulation: name is private
-        self._balance = 0  # Encapsulation: balance is private
-        self._transactions = []  # Encapsulation: transactions are private
+        self._name = name 
+        self._balance = 0  
+        self._transactions = [] 
 
     @property
     def balance(self):
@@ -35,7 +35,7 @@ class Account(ABC):
 class User(Account):
     def __init__(self, name, pin):
         super().__init__(name)
-        self._pin = self.hash_pin(pin)  # Encapsulation: PIN is private
+        self._pin = self.hash_pin(pin)  
 
     def hash_pin(self, pin):
         return hashlib.sha256(pin.encode()).hexdigest()
@@ -82,7 +82,7 @@ class ATM:
     def login(self, name, pin):
         user = self.users.get(name)
         if user and user.verify_pin(pin):
-            self.login_attempts[name] = 0  # Reset attempts on successful login
+            self.login_attempts[name] = 0  
             print(f"Welcome, {name}!")
             return user
         else:
