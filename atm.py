@@ -1,43 +1,70 @@
+from abc import ABC, abstractmethod
 import hashlib
 
-class User:
+# Base Account class with abstract methods
+class Account(ABC):
+    def __init__(self, name):
+        self._name = name  # Encapsulation: name is private
+        self._balance = 0  # Encapsulation: balance is private
+        self._transactions = []  # Encapsulation: transactions are private
+
+    @property
+    def balance(self):
+        return self._balance
+
+    @balance.setter
+    def balance(self, amount):
+        if amount < 0:
+            print("Balance cannot be negative.")
+        else:
+            self._balance = amount
+
+    @abstractmethod
+    def deposit(self, amount):
+        pass
+
+    @abstractmethod
+    def withdraw(self, amount):
+        pass
+
+    @abstractmethod
+    def print_transactions(self):
+        pass
+
+# User class inherits from Account
+class User(Account):
     def __init__(self, name, pin):
-        self.name = name
-        self.pin = self.hash_pin(pin)
-        self.balance = 0
-        self.transactions = []
+        super().__init__(name)
+        self._pin = self.hash_pin(pin)  # Encapsulation: PIN is private
 
     def hash_pin(self, pin):
         return hashlib.sha256(pin.encode()).hexdigest()
 
     def verify_pin(self, pin):
-        return self.hash_pin(pin) == self.pin
+        return self.hash_pin(pin) == self._pin
 
     def deposit(self, amount):
         if amount > 0:
-            self.balance += amount
-            self.transactions.append(f"Deposited: ${amount}")
-            print(f"Deposited ${amount}. New balance is: ${self.balance}")
+            self._balance += amount
+            self._transactions.append(f"Deposited: ${amount}")
+            print(f"Deposited ${amount}. New balance is: ${self._balance}")
         else:
             print("Invalid deposit amount.")
 
     def withdraw(self, amount):
-        if 0 < amount <= self.balance:
-            self.balance -= amount
-            self.transactions.append(f"Withdrew: ${amount}")
-            print(f"Withdrew ${amount}. New balance is: ${self.balance}")
+        if 0 < amount <= self._balance:
+            self._balance -= amount
+            self._transactions.append(f"Withdrew: ${amount}")
+            print(f"Withdrew ${amount}. New balance is: ${self._balance}")
         else:
             print("Invalid withdrawal amount or insufficient funds.")
 
-    def check_balance(self):
-        print(f"Current balance: ${self.balance}")
-
     def print_transactions(self):
-        print("Transaction history:")
-        for transaction in self.transactions:
+        print(f"Transaction history for {self._name}:")
+        for transaction in self._transactions:
             print(transaction)
 
-
+# ATM class handles user interaction and polymorphism
 class ATM:
     def __init__(self):
         self.users = {}
@@ -65,7 +92,7 @@ class ATM:
                 print(f"Account locked for {name} due to too many failed attempts.")
             return None
 
-
+# Main function for interacting with the ATM
 def main():
     atm = ATM()
 
@@ -89,7 +116,7 @@ def main():
                     action = input("Choose an action: ")
 
                     if action == '1':
-                        user.check_balance()
+                        print(f"Current balance: ${user.balance}")
 
                     elif action == '2':
                         try:
