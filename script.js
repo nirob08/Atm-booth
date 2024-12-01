@@ -26,6 +26,8 @@ function login(event) {
     } else {
         alert("Invalid username or PIN");
     }
+    document.getElementById("username").value = "";
+    document.getElementById("pin").value = "";
 }
 
 function createAccount(event) {
@@ -47,6 +49,8 @@ function createAccount(event) {
 
     users.push(user);
     alert("Account created successfully!");
+    document.getElementById("username").value = "";
+    document.getElementById("pin").value = "";
     showLoginScreen();
 }
 
@@ -101,8 +105,13 @@ function transactionHistory() {
 function logout() {
     currentUser = null;
     document.getElementById("account-screen").style.display = "none";
+    
+    document.getElementById("username").value = "";
+    document.getElementById("pin").value = "";
+    
     showLoginScreen();
 }
+
 // Toggle the visibility of the PIN
 document.getElementById('toggle-password').addEventListener('click', function() {
     var pinInput = document.getElementById('pin');
